@@ -1,10 +1,8 @@
 use std::io;
 
-fn main() {
-    
-    let mut input_temp = String::new();
-    
-    let input_unit = loop {
+
+fn set_input_unit() -> char {
+    loop {
         
         let mut input_unit = String::new();
 
@@ -24,15 +22,25 @@ fn main() {
                 },
         };
 
-        match input_unit {
-            'F' => (),
-            'C' => (),
-            'K' => (),
-            _ => {println!("did not recognise that unit. Please enter one of F or C or K."); continue},
-        };
+        let valid_units: [char;3] = ['F', 'C', 'K'];
 
-        break input_unit
+        if ! valid_units.contains(&input_unit) {
+            println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
+            continue;
+        }
+
+        return input_unit
+
     };
+
+}
+
+
+fn main() {
+    
+    let mut input_temp = String::new();
+    
+    let input_unit = set_input_unit();
 
     println!("the unit is {input_unit}");
 
