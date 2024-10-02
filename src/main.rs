@@ -36,6 +36,37 @@ fn set_input_unit() -> char {
 }
 
 
+fn convert_f_to_c(input_temp: &f64) -> f64 {
+    let output_temp: f64 = (input_temp - 32.0) * 5.0/9.0;
+    return output_temp
+}
+
+fn convert_f_to_k(input_temp: &f64) -> f64 {
+    let output_temp: f64 = ((input_temp - 459.66999999999996) * 5.0/9.0);
+    return output_temp
+}
+
+fn convert_c_to_f(input_temp: &f64) -> f64 {
+    let output_temp: f64 = (input_temp * 1.8) + 32.0;
+    return output_temp
+}
+
+fn convert_c_to_k(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp - 273.15;
+    return output_temp
+}
+
+fn convert_k_to_c(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp + 273.15;
+    return output_temp
+}
+
+fn convert_k_to_f(input_temp: &f64) -> f64 {
+    let output_temp: f64 = (input_temp * 1.8) + 459.66999999999996;
+    return output_temp
+}
+
+
 fn main() {
     
     let mut input_temp = String::new();
@@ -55,7 +86,7 @@ fn main() {
         .parse()
         .expect("could not read value as a number");
 
-    let output_temp: f64 = (input_temp - 32.0) * 5.0/9.0;
+    let output_temp: f64 = convert_f_to_c(&input_temp);
 
     println!("{input_temp}f = {output_temp}c");
 }
