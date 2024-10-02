@@ -1,9 +1,42 @@
 use std::io;
 
 fn main() {
+    
     let mut input_temp = String::new();
+    
+    let input_unit = loop {
+        
+        let mut input_unit = String::new();
 
-    println!("enter a temperature in Faranheit. Do not enter the unit.");
+        println!("enter the unit of the input (options: F or C or K)");
+
+        io::stdin()
+            .read_line(&mut input_unit)
+            .expect("could not read line");
+
+            let input_unit: char = match input_unit
+            .trim()
+            .parse() {
+                Ok(chr) => chr,
+                Err(_) => {
+                    println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
+                    continue;
+                },
+        };
+
+        match input_unit {
+            'F' => (),
+            'C' => (),
+            'K' => (),
+            _ => {println!("did not recognise that unit. Please enter one of F or C or K."); continue},
+        };
+
+        break input_unit
+    };
+
+    println!("the unit is {input_unit}");
+
+    println!("enter a temperature. Do not enter the unit.");
 
     io::stdin()
         .read_line(&mut input_temp)
