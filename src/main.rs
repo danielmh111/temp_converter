@@ -42,7 +42,7 @@ fn convert_f_to_c(input_temp: &f64) -> f64 {
 }
 
 fn convert_f_to_k(input_temp: &f64) -> f64 {
-    let output_temp: f64 = ((input_temp - 459.66999999999996) * 5.0/9.0);
+    let output_temp: f64 = (input_temp + 459.66999999999996) * 5.0/9.0;
     return output_temp
 }
 
@@ -52,17 +52,17 @@ fn convert_c_to_f(input_temp: &f64) -> f64 {
 }
 
 fn convert_c_to_k(input_temp: &f64) -> f64 {
-    let output_temp: f64 = input_temp - 273.15;
-    return output_temp
-}
-
-fn convert_k_to_c(input_temp: &f64) -> f64 {
     let output_temp: f64 = input_temp + 273.15;
     return output_temp
 }
 
+fn convert_k_to_c(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp - 273.15;
+    return output_temp
+}
+
 fn convert_k_to_f(input_temp: &f64) -> f64 {
-    let output_temp: f64 = (input_temp * 1.8) + 459.66999999999996;
+    let output_temp: f64 = (input_temp * 1.8) - 459.66999999999996;
     return output_temp
 }
 
@@ -86,7 +86,33 @@ fn main() {
         .parse()
         .expect("could not read value as a number");
 
-    let output_temp: f64 = convert_f_to_c(&input_temp);
+    let mut output_temp_a: f64 = 0.0;
+    let mut output_unit_a: char = '?';
+    let mut output_temp_b: f64 = 0.0;
+    let mut output_unit_b: char = '?';
 
-    println!("{input_temp}f = {output_temp}c");
+    match input_unit {
+        'F' => {
+            output_temp_a = convert_f_to_c(&input_temp); 
+            output_unit_a = 'C';
+            output_temp_b = convert_f_to_k(&input_temp);
+            output_unit_b = 'K';
+        },
+        'C' => {
+            output_temp_a = convert_c_to_f(&input_temp); 
+            output_unit_a = 'F';
+            output_temp_b = convert_c_to_k(&input_temp);
+            output_unit_b = 'K';
+        },
+        'K' => {
+            output_temp_a = convert_k_to_c(&input_temp); 
+            output_unit_a = 'C';
+            output_temp_b = convert_k_to_f(&input_temp);
+            output_unit_b = 'F';
+        },
+        _ => ()
+
+    };
+
+    println!("{input_temp}{input_unit} = \n{output_temp_a}{output_unit_a} \n{output_temp_b}{output_unit_b}");
 }
