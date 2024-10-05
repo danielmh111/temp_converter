@@ -1,41 +1,6 @@
 use std::io;
 
 
-fn set_input_unit() -> char {
-    loop {
-        
-        let mut input_unit = String::new();
-
-        println!("enter the unit of the input (options: F or C or K)");
-
-        io::stdin()
-            .read_line(&mut input_unit)
-            .expect("could not read line");
-
-            let input_unit: char = match input_unit
-            .trim()
-            .parse() {
-                Ok(chr) => chr,
-                Err(_) => {
-                    println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
-                    continue;
-                },
-        };
-
-        let valid_units: [char;3] = ['F', 'C', 'K'];
-
-        if ! valid_units.contains(&input_unit) {
-            println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
-            continue;
-        }
-
-        return input_unit
-
-    };
-
-}
-
-
 fn convert_f_to_c(input_temp: &f64) -> f64 {
     let output_temp: f64 = (input_temp - 32.0) * 5.0/9.0;
     return output_temp
@@ -67,29 +32,66 @@ fn convert_k_to_f(input_temp: &f64) -> f64 {
 }
 
 
-fn main() {
+fn set_input_value(input: &String) -> f64 {
+
+    let mut value = input 
+        .trim()
+        .chars();
+
+    value.next_back();
     
-    let mut input_temp = String::new();
-    
-    let input_unit = set_input_unit();
+    let value = value.as_str();
 
-    println!("the unit is {input_unit}");
-
-    println!("enter a temperature. Do not enter the unit.");
-
-    io::stdin()
-        .read_line(&mut input_temp)
-        .expect("could not read line");
-
-    let input_temp: f64 = input_temp
+    let value: f64 = value
         .trim()
         .parse()
-        .expect("could not read value as a number");
+        .expect("could not read the temperature value as a number");
 
+    return value
+}
+
+
+fn set_input_unit(input: &String) -> char {
+
+    let unit: char = input
+        .trim()
+        .chars()
+        .last()
+        .unwrap();
+
+    return unit
+}
+
+
+fn main() {
+
+    let mut input: String = String::new();
+
+    println!("Enter a temperature. Use a unit:- F or C or K");
+
+    io::stdin()
+        .read_line(&mut input)
+        .expect("could not read line");
+
+    let input_temp: f64 = set_input_value(&input);
+
+    let input_unit: char = set_input_unit(&input);
+
+    // let valid_units: [char;3] = ['F', 'C', 'K'];
+
+    // if ! valid_units.contains(&input_unit) {
+    //     println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
+    //     continue;
+    // }
+
+    // if input_unit = 'K' and input_temp < 0 {
+    //     println!("Kelvin temperatures cannot be below 0. you entered '{input_temp}")
+    // }
+    
     let mut output_temp_a: f64 = 0.0;
-    let mut output_unit_a: char = '?';
+    let mut output_unit_a: char = '\0';
     let mut output_temp_b: f64 = 0.0;
-    let mut output_unit_b: char = '?';
+    let mut output_unit_b: char = '\0';
 
     match input_unit {
         'F' => {
@@ -114,5 +116,5 @@ fn main() {
 
     };
 
-    println!("{input_temp}{input_unit} = \n{output_temp_a}{output_unit_a} \n{output_temp_b}{output_unit_b}");
+    println!("{input_temp}°{input_unit} = \n{output_temp_a}°{output_unit_a} \n{output_temp_b}°{output_unit_b}");
 }
