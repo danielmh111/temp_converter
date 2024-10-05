@@ -1,6 +1,5 @@
 use std::io;
 
-
 fn convert_f_to_c(input_temp: &f64) -> f64 {
     let output_temp: f64 = (input_temp - 32.0) * 5.0/9.0;
     return output_temp
@@ -39,7 +38,7 @@ fn set_input_value(input: &String) -> f64 {
         .chars();
 
     value.next_back();
-    
+
     let value = value.as_str();
 
     let value: f64 = value
@@ -65,28 +64,38 @@ fn set_input_unit(input: &String) -> char {
 
 fn main() {
 
-    let mut input: String = String::new();
+    let mut input_temp: f64;
+    let mut input_unit: char;
 
-    println!("Enter a temperature. Use a unit:- F or C or K");
+    loop {
 
-    io::stdin()
-        .read_line(&mut input)
-        .expect("could not read line");
+        let mut input: String = String::new();
 
-    let input_temp: f64 = set_input_value(&input);
+        println!("Enter a temperature. Use a unit:- F or C or K");
 
-    let input_unit: char = set_input_unit(&input);
+        io::stdin()
+            .read_line(&mut input)
+            .expect("could not read line");
 
-    // let valid_units: [char;3] = ['F', 'C', 'K'];
+        input_temp = set_input_value(&input);
 
-    // if ! valid_units.contains(&input_unit) {
-    //     println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
-    //     continue;
-    // }
+        input_unit = set_input_unit(&input);
 
-    // if input_unit = 'K' and input_temp < 0 {
-    //     println!("Kelvin temperatures cannot be below 0. you entered '{input_temp}")
-    // }
+        let valid_units: [char;3] = ['F', 'C', 'K'];
+
+        if ! valid_units.contains(&input_unit) {
+            println!("did not recognise that unit. you entered '{input_unit}' Please enter one of F or C or K.");
+            continue;
+        }
+
+        if input_unit == 'K' && input_temp < 0.0 {
+            println!("Kelvin temperatures cannot be below 0. you entered '{input_temp}'");
+            continue;
+        }
+
+        break
+
+    }
     
     let mut output_temp_a: f64 = 0.0;
     let mut output_unit_a: char = '\0';
