@@ -30,6 +30,26 @@ fn convert_k_to_f(input_temp: &f64) -> f64 {
     return output_temp
 }
 
+fn convert_f_to_ra(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp + 459.66999999999996;
+    return output_temp
+}
+
+fn convert_k_to_ra(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp * 5.0/9.0;
+    return output_temp
+}
+
+fn convert_c_to_re(input_temp: &f64) -> f64 {
+    let output_temp: f64 = input_temp * 0.8;
+    return output_temp
+}
+
+fn convert_c_to_ro(input_temp: &f64) -> f64 {
+    let output_temp: f64 = (input_temp * 40.0/21.0) - 7.5;
+    return output_temp
+}
+
 
 fn set_input_value(input: &String) -> f64 {
 
@@ -98,32 +118,56 @@ fn main() {
     }
     
     let mut output_temp_a: f64 = 0.0;
-    let mut output_unit_a: char = '\0';
+    let mut output_unit_a = "";
     let mut output_temp_b: f64 = 0.0;
-    let mut output_unit_b: char = '\0';
+    let mut output_unit_b = "";
+    let mut output_temp_c: f64 = 0.0;
+    let mut output_unit_c = "";
+    let mut output_temp_d: f64 = 0.0;
+    let mut output_unit_d = "";
+    let mut output_temp_e: f64 = 0.0;
+    let mut output_unit_e = "";
 
     match input_unit {
         'F' => {
             output_temp_a = convert_f_to_c(&input_temp); 
-            output_unit_a = 'C';
+            output_unit_a = "C";
             output_temp_b = convert_f_to_k(&input_temp);
-            output_unit_b = 'K';
+            output_unit_b = "K";
+            output_temp_c = convert_f_to_ra(&input_temp);
+            output_unit_c = "Ra";
+            output_temp_d = convert_c_to_re(&output_temp_a);
+            output_unit_d = "Re";
+            output_temp_e = convert_c_to_ro(&output_temp_a);
+            output_unit_e = "Rø";
         },
         'C' => {
             output_temp_a = convert_c_to_f(&input_temp); 
-            output_unit_a = 'F';
+            output_unit_a = "F";
             output_temp_b = convert_c_to_k(&input_temp);
-            output_unit_b = 'K';
+            output_unit_b = "K";
+            output_temp_c = convert_k_to_ra(&output_temp_b);
+            output_unit_c = "Ra";
+            output_temp_d = convert_c_to_re(&input_temp);
+            output_unit_d = "Re";
+            output_temp_e = convert_c_to_ro(&input_temp);
+            output_unit_e = "Rø";
         },
         'K' => {
             output_temp_a = convert_k_to_c(&input_temp); 
-            output_unit_a = 'C';
+            output_unit_a = "C";
             output_temp_b = convert_k_to_f(&input_temp);
-            output_unit_b = 'F';
+            output_unit_b = "F";
+            output_temp_c = convert_k_to_ra(&input_temp);
+            output_unit_c = "Ra";
+            output_temp_d = convert_c_to_re(&output_temp_a);
+            output_unit_d = "Re";
+            output_temp_e = convert_c_to_ro(&output_temp_a);
+            output_unit_e = "Rø";
         },
         _ => ()
 
     };
 
-    println!("{input_temp}°{input_unit} = \n{output_temp_a}°{output_unit_a} \n{output_temp_b}°{output_unit_b}");
+    println!("{input_temp}°{input_unit} = \n{output_temp_a}°{output_unit_a} \n{output_temp_b}°{output_unit_b} \n{output_temp_c}°{output_unit_c} \n{output_temp_d}°{output_unit_d} \n{output_temp_e}°{output_unit_e}");
 }
